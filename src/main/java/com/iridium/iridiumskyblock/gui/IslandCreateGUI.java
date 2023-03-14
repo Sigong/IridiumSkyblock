@@ -3,6 +3,7 @@ package com.iridium.iridiumskyblock.gui;
 import com.iridium.iridiumskyblock.IridiumSkyblock;
 import com.iridium.iridiumskyblock.configs.Schematics;
 import lombok.Getter;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,7 +36,11 @@ public class IslandCreateGUI extends SchematicGUI {
      */
     @Override
     public void selectSchematic(Map.Entry<String, Schematics.SchematicConfig> schematicConfig) {
-        IridiumSkyblock.getInstance().getCommands().createCommand.execute(player, new String[]{"create", islandName, schematicConfig.getKey()});
+        if(player.hasPermission("iridiumskyblock.schematic." + schematicConfig.getKey().toString())) {
+            IridiumSkyblock.getInstance().getCommands().createCommand.execute(player, new String[]{"create", islandName, schematicConfig.getKey()});
+        }else{
+            player.sendMessage(ChatColor.RED + "You don't have permission to use that schematic.");
+        }
     }
 
 }

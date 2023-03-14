@@ -17,7 +17,8 @@ repositories {
     maven("https://ci.ender.zone/plugin/repository/everything/")
     maven("https://jitpack.io")
     maven("https://redempt.dev")
-    maven("https://nexus.iridiumdevelopment.net/repository/maven-releases/")
+    //maven("https://nexus.iridiumdevelopment.net/repository/maven-releases/")
+    maven("https://repo.essentialsx.net/releases") // Added because Iridium SSL expired
     maven("https://papermc.io/repo/repository/maven-public/")
     maven("https://repo.rosewooddev.io/repository/public/")
     maven("https://hub.jeff-media.com/nexus/repository/jeff-media-public/")

@@ -8,6 +8,7 @@ import com.iridium.iridiumskyblock.database.Island;
 import com.iridium.iridiumskyblock.database.User;
 import com.iridium.iridiumskyblock.managers.CooldownProvider;
 import com.iridium.iridiumskyblock.utils.PlayerUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -45,12 +46,16 @@ public class IslandRegenGUI extends SchematicGUI {
         Optional<Island> island = user.getIsland();
         IslandRegenSettings regenSettings = IridiumSkyblock.getInstance().getConfiguration().regenSettings;
         if (island.isPresent()) {
-            if (PlayerUtils.pay(player, island.get(), regenSettings.crystalPrice, regenSettings.moneyPrice)) {
-                player.sendMessage(StringUtils.color(IridiumSkyblock.getInstance().getMessages().regeneratingIsland.replace("%prefix%", IridiumSkyblock.getInstance().getConfiguration().prefix)));
-                IridiumSkyblock.getInstance().getIslandManager().regenerateIsland(island.get(), user, schematicConfig.getValue());
-                cooldownProvider.applyCooldown(player);
-            } else {
-                player.sendMessage(StringUtils.color(IridiumSkyblock.getInstance().getMessages().cannotAfford.replace("%prefix%", IridiumSkyblock.getInstance().getConfiguration().prefix)));
+            if(player.hasPermission("iridiumskyblock.schematic." + schematicConfig.getKey().toString())) {
+                if (PlayerUtils.pay(player, island.get(), regenSettings.crystalPrice, regenSettings.moneyPrice)) {
+                    player.sendMessage(StringUtils.color(IridiumSkyblock.getInstance().getMessages().regeneratingIsland.replace("%prefix%", IridiumSkyblock.getInstance().getConfiguration().prefix)));
+                    IridiumSkyblock.getInstance().getIslandManager().regenerateIsland(island.get(), user, schematicConfig.getValue());
+                    cooldownProvider.applyCooldown(player);
+                } else {
+                    player.sendMessage(StringUtils.color(IridiumSkyblock.getInstance().getMessages().cannotAfford.replace("%prefix%", IridiumSkyblock.getInstance().getConfiguration().prefix)));
+                }
+            }else{
+                player.sendMessage(ChatColor.RED + "You don't have permission to use that schematic.");
             }
         } else {
             player.sendMessage(StringUtils.color(IridiumSkyblock.getInstance().getMessages().noIsland.replace("%prefix%", IridiumSkyblock.getInstance().getConfiguration().prefix)));
